@@ -277,15 +277,16 @@ async function listarPokemones() {
 </script>
 
 <style>
-#app,body {
+#app,body{
   height: 100vh; 
   width: 100vw;
   margin-top: 0px;
+  padding: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url(https://i.pinimg.com/736x/55/4b/57/554b572b7b1a9b88f0dcbc4c48a8b989.jpg);
-  background-size: cover;
+  background-image: url(https://i.pinimg.com/564x/30/3d/d3/303dd3e60c07e276720dc5221a308235.jpg);
+  background-size: 100%;
   background-position: center;
   background-repeat: no-repeat;
   
@@ -300,25 +301,28 @@ async function listarPokemones() {
 
 
 .contenedor, .contenedor2 {
+  margin-top: 20px;
   position: relative;
   width: 320px; 
   height: 480px; 
-  margin-left: 80px;
   display: grid;
   grid-template-rows: 4fr 1fr;
 }
 
+.contenedor{
+  margin-left: 40px;
+}
+.contenedor2{
+  margin-left: 200px;
+}
 .btn-tipo,
 .btn-debilidad {
 
   max-height: 20px;
   width: 55px;
   margin: 1px;
-
   padding: 0px 2px;
-
   background-color: #ccc;
-
   color: rgb(255, 255, 255);
   max-width: 50px;
   font-size: 0.8rem;
@@ -455,7 +459,7 @@ h1.not-found{
 .parte2 {
   position: relative;
   width: 400px;
-  height: 480px;
+  height: 500px;
   border: 1px solid #dfd9d9;
   background-color: rgba(169, 169, 169, 0.7);
   color: black;
