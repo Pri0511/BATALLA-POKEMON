@@ -1,10 +1,11 @@
 <template>
  <div class="conten">
+  <!-- primer jugador -->
   <div class="contenedor">
     <div class="parte1">
       <label id="pide1" for="numero">PokeSearch:</label>
       <input id="pide2" type="text" v-model="numero" placeholder="Ex: Charizard or 6" @input="listarPokemones">
-
+      <button class="recarga" @click="generarPokemonAleatorio"></button>
     </div>
     <div class="parte2">
       <!-- <button @click="listarPokemones()">Traer</button>
@@ -73,10 +74,17 @@
     </div>
 
   </div>
-
-
-
-
+  <!-- Seleccion de todo -->
+  <div class="contenedor3">
+   
+    <div class="contenedor3parte1">
+      <!-- <button @click="listarPokemones()">Traer</button>
+    <h1>{{ nombre }}</h1>
+    <img :src="image" alt="">-->
+      
+  </div>
+  </div>
+<!-- Segundo jugador -->
   <div class="contenedor2">
     <div class="parte1">
       <label id="pide1" for="numero">PokeSearch:</label>
@@ -214,6 +222,11 @@ let SpAttack = ref("");
 let SpDefense = ref("");
 let Speed = ref("");
 
+function generarPokemonAleatorio() {
+  const randomId = Math.floor(Math.random() * 1025) + 1; 
+  numero.value = randomId.toString();
+  listarPokemones(); 
+}
 async function listarPokemones() {
   if (numero.value.trim() === "") {
 
@@ -296,11 +309,11 @@ async function listarPokemones() {
   width: 100vw;
   padding: 0;  
   display: grid;
-  grid-template-columns: 50% 50%;
+  grid-template-columns: 33.33% 33.33% 33.33%;
 }
 
 
-.contenedor, .contenedor2 {
+.contenedor, .contenedor2, .contenedor3 {
   margin-top: 20px;
   position: relative;
   width: 320px; 
@@ -312,8 +325,11 @@ async function listarPokemones() {
 .contenedor{
   margin-left: 40px;
 }
+.contenedor3{
+  margin-left: 20px;
+}
 .contenedor2{
-  margin-left: 200px;
+  margin-left: 0px;
 }
 .btn-tipo,
 .btn-debilidad {
@@ -329,7 +345,23 @@ async function listarPokemones() {
 }
 
 
-
+.recarga{
+  width: 35px;
+  height: 35px;
+  background-image: url(resources/cargando-flechas.png);
+  background-size: 20px;
+  margin-top: 0px;
+  border-radius: 10px;
+  background-color: transparent;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: none;
+  outline: none;
+}
+.recarga:focus {
+  outline: none;
+  border: none;  
+}
 
 div.cara1.default-image img {
   width: 100%;
@@ -467,6 +499,16 @@ h1.not-found{
   border-bottom-right-radius: 15px;
 }
 
+.contenedor3parte1{
+  position: relative;
+  width: 400px;
+  height: 565px;
+  border: 1px solid #dfd9d9;
+  background-color: rgba(169, 169, 169, 0.7);
+  color: black;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
 #pide2 {
   margin-left: 4px;
   width: 150px;
