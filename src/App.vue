@@ -1,167 +1,155 @@
 <template>
- <div class="conten">
-  <!-- primer jugador -->
-  <div class="contenedor">
-    <div class="parte1">
-      <label id="pide1" for="numero">PokeSearch:</label>
-      <input id="pide2" type="text" v-model="numero" placeholder="Ex: Charizard or 6" @input="listarPokemones">
-      <button class="recarga" @click="generarPokemonAleatorio"></button>
-    </div>
-    <div class="parte2">
-      <!-- <button @click="listarPokemones()">Traer</button>
-    <h1>{{ nombre }}</h1>
-    <img :src="image" alt="">-->
-      <div class="contenedorparte2">
-        <div class="cont2_1">
-          <div class="nom">
-            <h1 :class="{ 'not-found': nombre === 'Pokémon no encontrado' }">
-              {{ nombre !== 'Pokémon no encontrado' ? nombre : 'Pokémon no encontrado' }}
-            </h1>
-          </div>
-          <div class="num">
-            <h1>{{ num }}</h1>
-          </div>
-        </div>
-        <div class="cont2_2">
-
-
-          <div class="cara1" :class="{ 'default-image': nombre === 'Pokémon no encontrado' }"
-            :style="{ backgroundColor: tipos.length > 0 ? typeColors[tipos[0]] : 'rgba(224, 217, 217, 0.363)' }">
-
-            <img :src="image" alt="">
-          </div>
-          <div class="cara2">
-            <div class="tipo1">Tipo:</div>
-            <div class="tipo2">
-              <button v-for="tipo in tipos" :key="tipo" class="btn-tipo" :style="{ backgroundColor: typeColors[tipo] }">
-                {{ tipo }}</button>
+  <div class="conten">
+    <!-- primer jugador -->
+    <div class="contenedor">
+      <div class="parte2">
+        <div class="contenedorparte2">
+          <div class="cont2_1">
+            <div class="nom">
+              <h1 :class="{ 'not-found': nombre1 === 'Pokémon no encontrado' }">
+                {{ nombre1 !== 'Pokémon no encontrado' ? nombre1 : 'Pokémon no encontrado' }}
+              </h1>
+            </div>
+            <div class="num">
+              <h1>{{ num1 }}</h1>
             </div>
           </div>
-          <div class="cara3">
-            <div class="debilidades1">Debilidad:</div>
-            <div class="debilidades2">
-              <button v-for="debilidad in debilidades" :key="debilidad" class="btn-debilidad"
-                :style="{ backgroundColor: weaknessColors[debilidad] }">{{ debilidad }}</button>
+          <div class="cont2_2">
+            <div class="cara1" :class="{ 'default-image': nombre1 === 'Pokémon no encontrado' }"
+              :style="{ backgroundColor: tipos1.length > 0 ? typeColors[tipos1[0]] : 'rgba(224, 217, 217, 0.363)' }">
+              <img :src="image1" alt="">
+            </div>
+            <div class="cara2">
+              <div class="tipo1">Tipo:</div>
+              <div class="tipo2">
+                <button v-for="tipo in tipos1" :key="tipo" class="btn-tipo"
+                  :style="{ backgroundColor: typeColors[tipo] }">
+                  {{ tipo }}</button>
+              </div>
+            </div>
+            <div class="cara3">
+              <div class="debilidades1">Debilidad:</div>
+              <div class="debilidades2">
+                <button v-for="debilidad in debilidades1" :key="debilidad" class="btn-debilidad"
+                  :style="{ backgroundColor: weaknessColors[debilidad] }">{{ debilidad }}</button>
+              </div>
             </div>
           </div>
-
-        </div>
-        <div class="cont2_3">
-
-          <div class="column1">
-            <div class="fila1">Base</div>
-            <div class="fila2">HP:</div>
-            <div class="fila3">Attack:</div>
-            <div class="fila4">Defense:</div>
-            <div class="fila5">Sp.Attack:</div>
-            <div class="fila6">Sp.Defense:</div>
-            <div class="fila7">Speed:</div>
+          <div class="cont2_3">
+            <div class="column1">
+              <div class="fila1">Base</div>
+              <div class="fila2">HP:</div>
+              <div class="fila3">Attack:</div>
+              <div class="fila4">Defense:</div>
+              <div class="fila5">Sp.Attack:</div>
+              <div class="fila6">Sp.Defense:</div>
+              <div class="fila7">Speed:</div>
+            </div>
+            <div class="column2">
+              <div class="fila8">Stats</div>
+              <div class="fila9">{{ hp1 }}</div>
+              <div class="fila10">{{ Attack1 }}</div>
+              <div class="fila11">{{ Defense1 }}</div>
+              <div class="fila12">{{ SpAttack1 }}</div>
+              <div class="fila13">{{ SpDefense1 }}</div>
+              <div class="fila14">{{ Speed1 }}</div>
+            </div>
           </div>
-          <div class="column2">
-            <div class="fila8">Stats</div>
-            <div class="fila9">{{ hp }}</div>
-            <div class="fila10">{{ Attack }}</div>
-            <div class="fila11">{{ Defense }}</div>
-            <div class="fila12">{{ SpAttack }}</div>
-            <div class="fila13">{{ SpDefense }}</div>
-            <div class="fila14">{{ Speed }}</div>
-          </div>
-
-
         </div>
-
       </div>
     </div>
 
-  </div>
-  <!-- Seleccion de todo -->
-  <div class="contenedor3">
-   
-    <div class="contenedor3parte1">
-      <!-- <button @click="listarPokemones()">Traer</button>
-    <h1>{{ nombre }}</h1>
-    <img :src="image" alt="">-->
-      
-  </div>
-  </div>
-<!-- Segundo jugador -->
-  <div class="contenedor2">
-    <div class="parte1">
-      <label id="pide1" for="numero">PokeSearch:</label>
-      <input id="pide2" type="text" v-model="numero" placeholder="Ex: Charizard or 6" @input="listarPokemones">
+    <!-- parte de la mitad -->
+    <div class="contenedormitad">
+      <div class="partemitad">
+        <div class="partemitad_1">
+          <label id="pide1" for="numero">ronda:</label>
+          {{ ronda }}
+        </div>
+        <div class="partemitad_2">
+          <div id="cara1mitad">
+          </div>
+          <div id="results"></div>
+        </div>
+        <div class="partemitad_3">
+          <div class="img_ganador"
+          :style="{ backgroundColor: colorGanador.length > 0 ? typeColors[colorGanador[0]] : 'rgba(224, 217, 217, 0.363)' }">
+          
+          <img id="fotoo" v-if="imgMaxGanador" :src="imgMaxGanador" alt="Imagen del ganador con más rondas">
+          <h1>Pokemon con mayor puntaje: {{ nombreGanador }}</h1>
+        </div>
+          <div class="partebutton">
+            <button class="recarga" @click="generarcomparar" :disabled="ronda >= 5"> SIGUIENTE</button>
+          </div>
+          
+
+        </div>
+      </div>
 
     </div>
-    <div class="parte2">
-      <!-- <button @click="listarPokemones()">Traer</button>
-    <h1>{{ nombre }}</h1>
-    <img :src="image" alt="">-->
-      <div class="contenedorparte2">
-        <div class="cont2_1">
-          <div class="nom">
-            <h1 :class="{ 'not-found': nombre === 'Pokémon no encontrado' }">
-              {{ nombre !== 'Pokémon no encontrado' ? nombre : 'Pokémon no encontrado' }}
-            </h1>
-          </div>
-          <div class="num">
-            <h1>{{ num }}</h1>
-          </div>
-        </div>
-        <div class="cont2_2">
-
-
-          <div class="cara1" :class="{ 'default-image': nombre === 'Pokémon no encontrado' }"
-            :style="{ backgroundColor: tipos.length > 0 ? typeColors[tipos[0]] : 'rgba(224, 217, 217, 0.363)' }">
-
-            <img :src="image" alt="">
-          </div>
-          <div class="cara2">
-            <div class="tipo1">Tipo:</div>
-            <div class="tipo2">
-              <button v-for="tipo in tipos" :key="tipo" class="btn-tipo" :style="{ backgroundColor: typeColors[tipo] }">
-                {{ tipo }}</button>
+    <!-- Segundo jugador -->
+    <div class="contenedor2">
+      <div class="parte2">
+        <div class="contenedorparte2">
+          <div class="cont2_1">
+            <div class="nom">
+              <h1 :class="{ 'not-found': nombre2 === 'Pokémon no encontrado' }">
+                {{ nombre2 !== 'Pokémon no encontrado' ? nombre2 : 'Pokémon no encontrado' }}
+              </h1>
+            </div>
+            <div class="num">
+              <h1>{{ num2 }}</h1>
             </div>
           </div>
-          <div class="cara3">
-            <div class="debilidades1">Debilidad:</div>
-            <div class="debilidades2">
-              <button v-for="debilidad in debilidades" :key="debilidad" class="btn-debilidad"
-                :style="{ backgroundColor: weaknessColors[debilidad] }">{{ debilidad }}</button>
+          <div class="cont2_2">
+            <div class="cara1" :class="{ 'default-image': nombre2 === 'Pokémon no encontrado' }"
+              :style="{ backgroundColor: tipos2.length > 0 ? typeColors[tipos2[0]] : 'rgba(224, 217, 217, 0.363)' }">
+              <img :src="image2" alt="">
+            </div>
+            <div class="cara2">
+              <div class="tipo1">Tipo:</div>
+              <div class="tipo2">
+                <button v-for="tipo in tipos2" :key="tipo" class="btn-tipo"
+                  :style="{ backgroundColor: typeColors[tipo] }">
+                  {{ tipo }}</button>
+              </div>
+            </div>
+            <div class="cara3">
+              <div class="debilidades1">Debilidad:</div>
+              <div class="debilidades2">
+                <button v-for="debilidad in debilidades2" :key="debilidad" class="btn-debilidad"
+                  :style="{ backgroundColor: weaknessColors[debilidad] }">{{ debilidad }}</button>
+              </div>
             </div>
           </div>
-
-        </div>
-        <div class="cont2_3">
-
-          <div class="column1">
-            <div class="fila1">Base</div>
-            <div class="fila2">HP:</div>
-            <div class="fila3">Attack:</div>
-            <div class="fila4">Defense:</div>
-            <div class="fila5">Sp.Attack:</div>
-            <div class="fila6">Sp.Defense:</div>
-            <div class="fila7">Speed:</div>
+          <div class="cont2_3">
+            <div class="column1">
+              <div class="fila1">Base</div>
+              <div class="fila2">HP:</div>
+              <div class="fila3">Attack:</div>
+              <div class="fila4">Defense:</div>
+              <div class="fila5">Sp.Attack:</div>
+              <div class="fila6">Sp.Defense:</div>
+              <div class="fila7">Speed:</div>
+            </div>
+            <div class="column2">
+              <div class="fila8">Stats</div>
+              <div class="fila9">{{ hp2 }}</div>
+              <div class="fila10">{{ Attack2 }}</div>
+              <div class="fila11">{{ Defense2 }}</div>
+              <div class="fila12">{{ SpAttack2 }}</div>
+              <div class="fila13">{{ SpDefense2 }}</div>
+              <div class="fila14">{{ Speed2 }}</div>
+            </div>
           </div>
-          <div class="column2">
-            <div class="fila8">Stats</div>
-            <div class="fila9">{{ hp }}</div>
-            <div class="fila10">{{ Attack }}</div>
-            <div class="fila11">{{ Defense }}</div>
-            <div class="fila12">{{ SpAttack }}</div>
-            <div class="fila13">{{ SpDefense }}</div>
-            <div class="fila14">{{ Speed }}</div>
-          </div>
-
-
         </div>
-
       </div>
     </div>
-
   </div>
- </div>
 </template>
-
 <script setup>
+import { ref, onMounted } from "vue";
+import axios from "axios";
 
 const typeColors = {
   normal: '#A8A878',
@@ -205,93 +193,190 @@ const weaknessColors = {
   fairy: '#EE99AC'
 };
 
-import axios from "axios"
-import { ref } from "vue";
+let nombre1 = ref("");
+let image1 = ref("");
+let num1 = ref("");
+let hp1 = ref("");
+let Attack1 = ref("");
+let Defense1 = ref("");
+let SpAttack1 = ref("");
+let SpDefense1 = ref("");
+let Speed1 = ref("");
+let tipos1 = ref([]);
+let debilidades1 = ref([]);
 
-let tipos = ref([]);
-let debilidades = ref([]);
+let nombre2 = ref("");
+let image2 = ref("");
+let num2 = ref("");
+let hp2 = ref("");
+let Attack2 = ref("");
+let Defense2 = ref("");
+let SpAttack2 = ref("");
+let SpDefense2 = ref("");
+let Speed2 = ref("");
+let tipos2 = ref([]);
+let debilidades2 = ref([]);
+let ronda = ref(0);
+let ganador = ref("");
+let colorGanador = ref("");
+let nombreGanador= ref("");
+const resultados = [];
 
-let nombre = ref("");
-let image = ref("");
-let num = ref("");
-let numero = ref("");
-let hp = ref("");
-let Attack = ref("");
-let Defense = ref("");
-let SpAttack = ref("");
-let SpDefense = ref("");
-let Speed = ref("");
+let victorias = ref({
+  [nombre1.value]: 0,
+  [nombre2.value]: 0,
+});
 
-function generarPokemonAleatorio() {
-  const randomId = Math.floor(Math.random() * 1025) + 1; 
-  numero.value = randomId.toString();
-  listarPokemones(); 
-}
-async function listarPokemones() {
-  if (numero.value.trim() === "") {
+let maxGanador = ref(""); 
+let imgMaxGanador = ref("");
+let i=0;
+async function generarcomparar() {
 
-    nombre.value = "";
-    image.value = "";
-    num.value = "";
-    hp.value = "";
-    Attack.value = "";
-    Defense.value = "";
-    SpAttack.value = "";
-    SpDefense.value = "";
-    Speed.value = "";
-    tipos.value = [];
-    debilidades.value = [];
-    return;
+  ronda.value++;
+
+
+  if(i===0){
+
+  const randomId1 = Math.floor(Math.random() * 1025) + 1;
+  const randomId2 = Math.floor(Math.random() * 1025) + 1;
+
+  await listarPokemones(randomId1, true);
+  await listarPokemones(randomId2, false);
+
+  if (Attack1.value > Attack2.value) {
+    ganador.value = nombre1.value;
+    imgMaxGanador.value = image1.value;
+    colorGanador.value= tipos1.value;
+    nombreGanador.value=nombre1.value;
+  } else if (Attack2.value > Attack1.value) {
+    ganador.value = nombre2.value;
+    imgMaxGanador.value = image2.value;
+    colorGanador.value= tipos2.value;
+    nombreGanador.value=nombre2.value;
+  } else {
+    ganador.value = "Empate";
+  }
+    i++;
   }
 
-  try {
-    let url = `https://pokeapi.co/api/v2/pokemon/${numero.value.toLowerCase()}`;
-    let { data } = await axios.get(url);
 
-    nombre.value = data.name;
-    image.value = data.sprites.front_default;
-    num.value = data.id;
-    hp.value = data.stats[0].base_stat;
-    Attack.value = data.stats[1].base_stat;
-    Defense.value = data.stats[2].base_stat;
-    SpAttack.value = data.stats[3].base_stat;
-    SpDefense.value = data.stats[4].base_stat;
-    Speed.value = data.stats[5].base_stat;
-    tipos.value = data.types.map(tipo => tipo.type.name);
 
-    debilidades.value = [];
-    for (let tipo of tipos.value) {
-      let tipoData = await axios.get(`https://pokeapi.co/api/v2/type/${tipo}`);
-      tipoData.data.damage_relations.double_damage_from.forEach(deb => {
-        if (!debilidades.value.includes(deb.name)) {
-          debilidades.value.push(deb.name);
-        }
-      });
+else{
+  
+  if (Attack1.value > Attack2.value) {
+    ganador.value = nombre1.value;
+    victorias.value[nombre1.value] = (victorias.value[nombre1.value] || 0) + 1;
+    await listarPokemones(Math.floor(Math.random() * 1025) + 1, false);
+  } else if (Attack2.value > Attack1.value) {
+    ganador.value = nombre2.value;
+    victorias.value[nombre2.value] = (victorias.value[nombre2.value] || 0) + 1;
+    await listarPokemones(Math.floor(Math.random() * 1025) + 1, true);
+  } else {
+    ganador.value = "Empate";
+    await listarPokemones(Math.floor(Math.random() * 1025) + 1, false);
+    await listarPokemones(Math.floor(Math.random() * 1025) + 1, true);
+  }
+}
+
+  // Actualizar el ganador con más victorias
+  let maxVictorias = 0;
+  for (const [nombre, victoriasCount] of Object.entries(victorias.value)) {
+    if (victoriasCount > maxVictorias) {
+      maxVictorias = victoriasCount;
+      maxGanador.value = nombre;
     }
-  } catch (error) {
+  }
 
-    console.error(error);
-    nombre.value = "Pokémon no encontrado";
-    image.value = "https://bcdn.lanetaneta.com/wp-content/uploads/2022/02/Pokemon-como-jugar-a-Nuzlocke-Run-desafio-personalizado.jpg";
-    num.value = "";
-    hp.value = "";
-    Attack.value = "";
-    Defense.value = "";
-    SpAttack.value = "";
-    SpDefense.value = "";
-    Speed.value = "";
-    tipos.value = [];
-    debilidades.value = [];
+
+
+  if (maxGanador.value === nombre1.value) {
+    imgMaxGanador.value = image1.value;
+    colorGanador.value= tipos1.value;
+    nombreGanador.value=nombre1.value;
+  } else if (maxGanador.value === nombre2.value) {
+    imgMaxGanador.value = image2.value;
+    colorGanador.value= tipos2.value;
+    nombreGanador.value=nombre2.value;
+  }
+
+  const resultado = `Ronda ${ronda.value}: ${nombre1.value} vs ${nombre2.value} - Ganador: ${ganador.value}`;
+  resultados.push(resultado);
+  renderResultados();
+}
+
+function renderResultados() {
+  const resultsContainer = document.getElementById('results');
+  resultsContainer.innerHTML = ''; 
+
+  resultados.forEach((resultado, index) => {
+    const div = document.createElement('div');
+    div.className = 'round-result';
+    div.innerText = resultado;
+    resultsContainer.appendChild(div);
+  });
+}
+
+async function listarPokemones(id, isFirst) {
+  const url = `https://pokeapi.co/api/v2/pokemon/${id}`;
+  try {
+    let { data } = await axios.get(url);
+    if (isFirst == true) {
+      nombre1.value = data.name;
+      image1.value = data.sprites.front_default;
+      num1.value = data.id;
+      hp1.value = data.stats[0].base_stat;
+      Attack1.value = data.stats[1].base_stat;
+      Defense1.value = data.stats[2].base_stat;
+      SpAttack1.value = data.stats[3].base_stat;
+      SpDefense1.value = data.stats[4].base_stat;
+      Speed1.value = data.stats[5].base_stat;
+      tipos1.value = data.types.map(tipo => tipo.type.name);
+      debilidades1.value = await obtenerDebilidades(data.types.map(tipo => tipo.type.name));
+    } else {
+      nombre2.value = data.name;
+      image2.value = data.sprites.front_default;
+      num2.value = data.id;
+      hp2.value = data.stats[0].base_stat;
+      Attack2.value = data.stats[1].base_stat;
+      Defense2.value = data.stats[2].base_stat;
+      SpAttack2.value = data.stats[3].base_stat;
+      SpDefense2.value = data.stats[4].base_stat;
+      Speed2.value = data.stats[5].base_stat;
+      tipos2.value = data.types.map(tipo => tipo.type.name);
+      debilidades2.value = await obtenerDebilidades(data.types.map(tipo => tipo.type.name));
+    }
+
+  } catch (error) {
+    if (isFirst) {
+      nombre1.value = "Pokémon no encontrado";
+    } else {
+      nombre2.value = "Pokémon no encontrado";
+    }
   }
 }
 
+async function obtenerDebilidades(tipos) {
+  let debilidades = [];
+  for (let tipo of tipos) {
+    let url = `https://pokeapi.co/api/v2/type/${tipo}`;
+    let { data } = await axios.get(url);
+    data.damage_relations.double_damage_from.forEach(d => {
+      if (!debilidades.includes(d.name)) {
+        debilidades.push(d.name);
+      }
+    });
+  }
+  return debilidades;
+}
 
-
+onMounted(() => {
+  generarPokemonAleatorio();
+});
 </script>
-
 <style>
-#app,body{
-  height: 100vh; 
+#app,
+body {
+  height: 100vh;
   width: 100vw;
   margin-top: 0px;
   padding: 0;
@@ -302,35 +387,44 @@ async function listarPokemones() {
   background-size: 100%;
   background-position: center;
   background-repeat: no-repeat;
-  
+
 }
+
 .conten {
-  height: 100vh; 
+  height: 100vh;
   width: 100vw;
-  padding: 0;  
+  padding: 0;
   display: grid;
   grid-template-columns: 33.33% 33.33% 33.33%;
 }
 
 
-.contenedor, .contenedor2, .contenedor3 {
+.contenedor,
+.contenedor2,
+.contenedormitad {
   margin-top: 20px;
   position: relative;
-  width: 320px; 
-  height: 480px; 
+  width: 320px;
+  height: 480px;
   display: grid;
   grid-template-rows: 4fr 1fr;
 }
 
-.contenedor{
+.contenedor {
   margin-left: 40px;
+  margin-top: 60px;
 }
-.contenedor3{
+
+.contenedormitad {
   margin-left: 20px;
+  margin-top: 60px;
 }
-.contenedor2{
+
+.contenedor2 {
   margin-left: 0px;
+  margin-top: 60px;
 }
+
 .btn-tipo,
 .btn-debilidad {
 
@@ -345,22 +439,24 @@ async function listarPokemones() {
 }
 
 
-.recarga{
-  width: 35px;
-  height: 35px;
-  background-image: url(resources/cargando-flechas.png);
-  background-size: 20px;
-  margin-top: 0px;
+.recarga {
+  width: 120px;
+  height: 35px; 
+  padding: 0;
+  margin-top: 10px;
   border-radius: 10px;
   background-color: transparent;
-  background-position: center;
-  background-repeat: no-repeat;
   border: none;
   outline: none;
 }
+/* ---------------------------------------------- */
 .recarga:focus {
   outline: none;
-  border: none;  
+  border: none;
+  
+}
+.recarga:hover{
+  background-color: rgba(224, 217, 217, 0.363);
 }
 
 div.cara1.default-image img {
@@ -374,7 +470,7 @@ div.cara1.default-image img {
 
 
 
-h1.not-found{
+h1.not-found {
   text-align: left;
   font-size: 0.7rem;
   margin-left: 25%;
@@ -417,6 +513,7 @@ h1.not-found{
 }
 
 
+/* ooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo */
 
 .cara2,
 .cara3 {
@@ -466,6 +563,18 @@ h1.not-found{
   background-color: rgba(224, 217, 217, 0.363);
 }
 
+.cara1mitad {
+  position: relative;
+  width: 340px;
+  height: 200px;
+  margin-left: 18px;
+ 
+  color: rgb(0, 0, 0);  
+  border: 1px solid #dfd9d9;
+  background-color: rgba(224, 217, 217, 0.363);
+}
+
+
 .cont2_3 {
   position: relative;
   width: 320px;
@@ -499,7 +608,56 @@ h1.not-found{
   border-bottom-right-radius: 15px;
 }
 
-.contenedor3parte1{
+.partemitad {
+  position: relative;
+  width: 400px;
+  height: 500px;
+  border: 1px solid #dfd9d9;
+  background-color: rgba(169, 169, 169, 0.7);
+  color: black;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+
+.partemitad {
+  display: grid;
+  grid-template-rows: 10% 45% 45%;
+}
+
+.partemitad_2 {
+  position: relative;
+  width: 390px; 
+  height: 220px;
+  margin-top: -8px;
+  margin-left: 4px; 
+  border: 1px solid #dfd9d9; 
+  background-color: rgba(224, 217, 217, 0.363);
+  overflow-y: auto; 
+}
+
+.partemitad_2 {
+    --sb-track-color: #d4cfcf;
+    --sb-thumb-color: #e0dbdb;
+    --sb-size: 7px;
+  
+    
+    
+  }
+  
+  .partemitad_2::-webkit-scrollbar {
+    width: var(--sb-size);
+  }
+  
+  .partemitad_2::-webkit-scrollbar-track {
+    background: var(--sb-track-color);
+    border-radius: 3px;
+  }
+  
+  .partemitad_2::-webkit-scrollbar-thumb {
+    background: var(--sb-thumb-color);
+    border-radius: 3px;
+  }
+.contenedor3parte1 {
   position: relative;
   width: 400px;
   height: 565px;
@@ -509,6 +667,7 @@ h1.not-found{
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
 }
+
 #pide2 {
   margin-left: 4px;
   width: 150px;
@@ -538,6 +697,10 @@ h1.not-found{
   grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
 
 }
+.partemitad_3{
+  display: grid;
+  grid-template-rows: 3fr 1fr;
+}
 
 .fila1,
 .fila2,
@@ -559,33 +722,59 @@ h1.not-found{
   border: 1px solid #dfd9d9;
   background-color: rgba(224, 217, 217, 0.363);
 }
+.img_ganador h1{
+  font-size: 1rem;
+  margin-left: 0%;
+  margin-top: -2px;
+  color: rgb(49, 49, 49);
+}
+#fotoo{
+  margin-top: 8px;
+  width: 30%;
+  height: auto;
+  object-fit: contain;
+}
+
+#results {
+  margin-top: 14px;
+}
+
+.round-result {
+  position: relative;
+  width: 366px;
+  margin-left: 7px;
+  margin-bottom: 2px;
+  padding: 1px;
+  border: 1px solid #dfd9d9;
+  background-color: rgba(224, 217, 217, 0.363);
+}
 
 
 
 @media (max-width: 900px) {
-.contenedor {
-  position: relative;
-  width: 350px;
-  height: 300px;
-  margin-top: -200px;
-  margin-bottom: -18px;
-  margin-left: -50px;
-  display: grid;
-  grid-template-rows: 4fr, 1fr;
+  .contenedor {
+    position: relative;
+    width: 350px;
+    height: 300px;
+    margin-top: -200px;
+    margin-bottom: -18px;
+    margin-left: -50px;
+    display: grid;
+    grid-template-rows: 4fr, 1fr;
 
-}
+  }
 
-body {
-  height: 100%;  
-  margin: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-image: none;  
-  background-size: 100%;
-  background-position: center;
-  background-repeat: no-repeat;
-}
+  body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: none;
+    background-size: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
 
 }
 </style>
