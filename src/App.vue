@@ -1,6 +1,25 @@
 <template>
   <div class="conten">
+<!-- Overlay Modal -->
+<div v-if="showOverlay" class="overlay">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Número de Rondas</h1>
+          
+          </div>
+          <div class="modal-body">
+            <input type="number" v-model="rondasInput" class="form-control" placeholder="Ingrese el número de rondas" />
+          </div>
+          <div class="modal-footer">
   
+            <button type="button" class="btn btn-custom" @click="setRondas">Guardar cambios</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
     <!-- primer jugador -->
     <div class="contenedor">
       <div class="parte2">
@@ -80,7 +99,7 @@
           <h1>Pokemon con mayor puntaje: {{ nombreGanador }}</h1>
         </div>
           <div class="partebutton">
-            <button class="recarga" @click="generarcomparar" :disabled="ronda >= 5"> SIGUIENTE</button>
+            <button class="recarga" @click="generarcomparar" :disabled="ronda >= totalRondas"> SIGUIENTE</button>
           </div>
           
 
@@ -146,6 +165,9 @@
         </div>
       </div>
     </div>
+
+
+
   </div>
 </template>
 <script setup>
@@ -233,50 +255,77 @@ let maxGanador = ref("");
 let imgMaxGanador = ref("");
 
 
+let totalRondas = ref(5); 
+
+
+const rondasInput = ref(0);
+const showOverlay = ref(true); 
+// Métodos
+// Métodos
+function setRondas() {
+  if (rondasInput.value > 0) {
+    totalRondas.value = rondasInput.value;
+    ronda.value = 0;
+    closeOverlay();
+  }
+}
+
+function closeOverlay() {
+  showOverlay.value = false;
+}
+
+
+
+
+
+
+
+
+
 async function generarcomparar() {
-  // Incrementar el número de rondas
+
   ronda.value++;
 
-  // Verificar si estamos en la primera ronda
+
   if (ronda.value === 1) {
-    // Generar dos nuevos Pokémon al inicio del juego
+    
     const randomId1 = Math.floor(Math.random() * 1025) + 1;
     const randomId2 = Math.floor(Math.random() * 1025) + 1;
     
-    // Obtener datos de los dos primeros Pokémon
+
     await listarPokemones(randomId1, true);
     await listarPokemones(randomId2, false);
   } else {
-    // Para las rondas siguientes, solo generar un nuevo Pokémon para el perdedor
+ 
     if (Attack1.value > Attack2.value) {
-      // Pokémon 1 gana, reemplazar al Pokémon 2
+  
       const randomId2 = Math.floor(Math.random() * 1025) + 1;
-      await listarPokemones(randomId2, false); // Reemplazar Pokémon 2
+      await listarPokemones(randomId2, false); 
     } else if (Attack2.value > Attack1.value) {
-      // Pokémon 2 gana, reemplazar al Pokémon 1
+
       const randomId1 = Math.floor(Math.random() * 1025) + 1;
-      await listarPokemones(randomId1, true); // Reemplazar Pokémon 1
+      await listarPokemones(randomId1, true); 
     }
   }
 
-  // Comparar los valores de Attack de ambos Pokémon
+
   if (Attack1.value > Attack2.value) {
     ganador.value = nombre1.value;
     ganadorfijo = nombre1.value;
-    victorias.value[nombre1.value] = (victorias.value[nombre1.value] || 0) + 1; // Sumar victoria a Pokémon 1
+    victorias.value[nombre1.value] = (victorias.value[nombre1.value] || 0) + 1; 
   } else if (Attack2.value > Attack1.value) {
     ganador.value = nombre2.value;
     ganadorfijo = nombre2.value;
-    victorias.value[nombre2.value] = (victorias.value[nombre2.value] || 0) + 1; // Sumar victoria a Pokémon 2
+    victorias.value[nombre2.value] = (victorias.value[nombre2.value] || 0) + 1; 
   } else {
     ganadorfijo = "Empate";
     ganador.value = "Empate";
   }
 
-  // Mostrar el ganador de la ronda actual en la consola
+
   console.log(`Ronda ${ronda.value}: ${nombre1.value} vs ${nombre2.value} - Ganador: ${ganadorfijo}`);
 
-  // Determinar el Pokémon con más rondas ganadas
+
   let maxVictorias = 0;
   let pokemonMasGanadas = "";
 
@@ -287,10 +336,10 @@ async function generarcomparar() {
     }
   }
 
-  // Mostrar el Pokémon con más rondas ganadas en la consola
+
   console.log(`El Pokémon con más rondas ganadas hasta ahora es: ${pokemonMasGanadas} con ${maxVictorias} victorias.`);
 
-  // Actualizar los datos del Pokémon con más victorias para la interfaz
+  
   if (pokemonMasGanadas === nombre1.value) {
     imgMaxGanador.value = image1.value;
     colorGanador.value = tipos1.value;
@@ -301,7 +350,7 @@ async function generarcomparar() {
     nombreGanador.value = nombre2.value;
   }
 
-  // Añadir el resultado de la ronda al historial de resultados
+ 
   const resultado = `Ronda ${ronda.value}: ${nombre1.value} vs ${nombre2.value} - Ganador: ${ganadorfijo}`;
   resultados.push(resultado);
   renderResultados();
@@ -375,6 +424,11 @@ async function obtenerDebilidades(tipos) {
 onMounted(() => {
   generarPokemonAleatorio();
 });
+
+
+
+
+
 </script>
 <style>
 #app,
@@ -391,6 +445,30 @@ body {
   background-position: center;
   background-repeat: no-repeat;
 
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1050; 
+}
+
+.modal-dialog {
+  background: rgba(88, 91, 92, 0.9);
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 1rem;
+}
+
+.btn-custom {
+  margin-top: 10px;
 }
 
 .conten {
