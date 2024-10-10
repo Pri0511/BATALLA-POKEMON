@@ -1,25 +1,33 @@
 <template>
   <div class="conten">
-<!-- Overlay Modal -->
-<div v-if="showOverlay" class="overlay">
+    <!-- Overlay Modal -->
+    <div v-if="showOverlay" class="overlay">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <h1 class="modal-title fs-5" id="exampleModalLabel">Número de Rondas</h1>
-          
+
           </div>
           <div class="modal-body">
             <input type="number" v-model="rondasInput" class="form-control" placeholder="Ingrese el número de rondas" />
+
+            <select v-model="selectedStat" class="form-select">
+              <option value="Attack">Attack</option>
+              <option value="Defense">Defense</option>
+              <option value="SpAttack">Sp.Attack</option>
+              <option value="SpDefense">Sp.Defense</option>
+              <option value="Speed">Speed</option>
+            </select>
           </div>
           <div class="modal-footer">
-  
-            <button type="button" class="btn btn-custom" @click="setRondas">Guardar cambios</button>
+
+            <button type="button" class="btn btn-custom" @click="setRondas">COMENZAR</button>
           </div>
         </div>
       </div>
     </div>
 
-    
+
     <!-- primer jugador -->
     <div class="contenedor">
       <div class="parte2">
@@ -83,8 +91,11 @@
     <div class="contenedormitad">
       <div class="partemitad">
         <div class="partemitad_1">
-          <label id="pide1" for="numero">ronda:</label>
+          <label id="pide1" for="numero">Ronda:</label>
           {{ ronda }}
+          <label id="pide3" for="numero">Stat: </label>
+          {{ stat }}
+
         </div>
         <div class="partemitad_2">
           <div id="cara1mitad">
@@ -93,15 +104,15 @@
         </div>
         <div class="partemitad_3">
           <div class="img_ganador"
-          :style="{ backgroundColor: colorGanador.length > 0 ? typeColors[colorGanador[0]] : 'rgba(224, 217, 217, 0.363)' }">
-          
-          <img id="fotoo" v-if="imgMaxGanador" :src="imgMaxGanador" alt="Imagen del ganador con más rondas">
-          <h1>Pokemon con mayor puntaje: {{ nombreGanador }}</h1>
-        </div>
+            :style="{ backgroundColor: colorGanador.length > 0 ? typeColors[colorGanador[0]] : 'rgba(224, 217, 217, 0.363)' }">
+
+            <img id="fotoo" v-if="imgMaxGanador" :src="imgMaxGanador" alt="Imagen del ganador con más rondas">
+            <h1>Pokemon con mayor puntaje: {{ nombreGanador }}</h1>
+          </div>
           <div class="partebutton">
             <button class="recarga" @click="generarcomparar" :disabled="ronda >= totalRondas"> SIGUIENTE</button>
           </div>
-          
+
 
         </div>
       </div>
@@ -242,7 +253,7 @@ let debilidades2 = ref([]);
 let ronda = ref(0);
 let ganador = ref("");
 let colorGanador = ref("");
-let nombreGanador= ref("");
+let nombreGanador = ref("");
 let ganadorfijo = ref("");
 const resultados = [];
 
@@ -251,75 +262,85 @@ let victorias = ref({
   [nombre2.value]: 0,
 });
 
-let maxGanador = ref(""); 
 let imgMaxGanador = ref("");
 
 
-let totalRondas = ref(5); 
+let totalRondas = ref(5);
 
 
 const rondasInput = ref(0);
-const showOverlay = ref(true); 
-// Métodos
-// Métodos
+const showOverlay = ref(true);
+const stat = ref('');
 function setRondas() {
   if (rondasInput.value > 0) {
     totalRondas.value = rondasInput.value;
     ronda.value = 0;
     closeOverlay();
+    
   }
 }
 
 function closeOverlay() {
   showOverlay.value = false;
+  stat.value = `${selectedStat.value==''?"Attack":selectedStat.value}`;
 }
 
-
-
-
-
-
+const selectedStat = ref('Attack');
 
 
 
 async function generarcomparar() {
 
   ronda.value++;
-
+  
 
   if (ronda.value === 1) {
-    
+
     const randomId1 = Math.floor(Math.random() * 1025) + 1;
     const randomId2 = Math.floor(Math.random() * 1025) + 1;
-    
+
 
     await listarPokemones(randomId1, true);
     await listarPokemones(randomId2, false);
-  } else {
- 
-    if (Attack1.value > Attack2.value) {
-  
-      const randomId2 = Math.floor(Math.random() * 1025) + 1;
-      await listarPokemones(randomId2, false); 
-    } else if (Attack2.value > Attack1.value) {
 
+  } else {
+
+    const stat1 = eval(selectedStat.value + "1");
+    const stat2 = eval(selectedStat.value + "2");
+
+ 
+
+
+    if (stat1.value > stat2.value) {
+      const randomId2 = Math.floor(Math.random() * 1025) + 1;
+      await listarPokemones(randomId2, false);
+    } else if (stat2.value > stat1.value) {
       const randomId1 = Math.floor(Math.random() * 1025) + 1;
-      await listarPokemones(randomId1, true); 
+      await listarPokemones(randomId1, true);
+    } else {
+      const randomId1 = Math.floor(Math.random() * 1025) + 1;
+      const randomId2 = Math.floor(Math.random() * 1025) + 1;
+      await listarPokemones(randomId1, true);
+      await listarPokemones(randomId2, false);
     }
   }
 
+  const stat1 = eval(selectedStat.value + "1");
+  const stat2 = eval(selectedStat.value + "2");
 
-  if (Attack1.value > Attack2.value) {
+ 
+  if (stat1.value > stat2.value) {
     ganador.value = nombre1.value;
     ganadorfijo = nombre1.value;
-    victorias.value[nombre1.value] = (victorias.value[nombre1.value] || 0) + 1; 
-  } else if (Attack2.value > Attack1.value) {
+    victorias.value[nombre1.value] = (victorias.value[nombre1.value] || 0) + 1;
+  } else if (stat2.value > stat1.value) {
     ganador.value = nombre2.value;
     ganadorfijo = nombre2.value;
-    victorias.value[nombre2.value] = (victorias.value[nombre2.value] || 0) + 1; 
+    victorias.value[nombre2.value] = (victorias.value[nombre2.value] || 0) + 1;
   } else {
     ganadorfijo = "Empate";
     ganador.value = "Empate";
+
   }
 
 
@@ -339,7 +360,7 @@ async function generarcomparar() {
 
   console.log(`El Pokémon con más rondas ganadas hasta ahora es: ${pokemonMasGanadas} con ${maxVictorias} victorias.`);
 
-  
+
   if (pokemonMasGanadas === nombre1.value) {
     imgMaxGanador.value = image1.value;
     colorGanador.value = tipos1.value;
@@ -350,7 +371,7 @@ async function generarcomparar() {
     nombreGanador.value = nombre2.value;
   }
 
- 
+
   const resultado = `Ronda ${ronda.value}: ${nombre1.value} vs ${nombre2.value} - Ganador: ${ganadorfijo}`;
   resultados.push(resultado);
   renderResultados();
@@ -358,7 +379,7 @@ async function generarcomparar() {
 
 function renderResultados() {
   const resultsContainer = document.getElementById('results');
-  resultsContainer.innerHTML = ''; 
+  resultsContainer.innerHTML = '';
 
   resultados.forEach((resultado, index) => {
     const div = document.createElement('div');
@@ -457,7 +478,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1050; 
+  z-index: 1050;
 }
 
 .modal-dialog {
@@ -522,7 +543,7 @@ body {
 
 .recarga {
   width: 120px;
-  height: 35px; 
+  height: 35px;
   padding: 0;
   margin-top: 10px;
   border-radius: 10px;
@@ -530,13 +551,15 @@ body {
   border: none;
   outline: none;
 }
+
 /* ---------------------------------------------- */
 .recarga:focus {
   outline: none;
   border: none;
-  
+
 }
-.recarga:hover{
+
+.recarga:hover {
   background-color: rgba(224, 217, 217, 0.363);
 }
 
@@ -649,8 +672,8 @@ h1.not-found {
   width: 340px;
   height: 200px;
   margin-left: 18px;
- 
-  color: rgb(0, 0, 0);  
+
+  color: rgb(0, 0, 0);
   border: 1px solid #dfd9d9;
   background-color: rgba(224, 217, 217, 0.363);
 }
@@ -707,37 +730,38 @@ h1.not-found {
 
 .partemitad_2 {
   position: relative;
-  width: 390px; 
+  width: 390px;
   height: 220px;
   margin-top: -8px;
-  margin-left: 4px; 
-  border: 1px solid #dfd9d9; 
+  margin-left: 4px;
+  border: 1px solid #dfd9d9;
   background-color: rgba(224, 217, 217, 0.363);
-  overflow-y: auto; 
+  overflow-y: auto;
 }
 
 .partemitad_2 {
-    --sb-track-color: #d4cfcf;
-    --sb-thumb-color: #e0dbdb;
-    --sb-size: 7px;
-  
-    
-    
-  }
-  
-  .partemitad_2::-webkit-scrollbar {
-    width: var(--sb-size);
-  }
-  
-  .partemitad_2::-webkit-scrollbar-track {
-    background: var(--sb-track-color);
-    border-radius: 3px;
-  }
-  
-  .partemitad_2::-webkit-scrollbar-thumb {
-    background: var(--sb-thumb-color);
-    border-radius: 3px;
-  }
+  --sb-track-color: #d4cfcf;
+  --sb-thumb-color: #e0dbdb;
+  --sb-size: 7px;
+
+
+
+}
+
+.partemitad_2::-webkit-scrollbar {
+  width: var(--sb-size);
+}
+
+.partemitad_2::-webkit-scrollbar-track {
+  background: var(--sb-track-color);
+  border-radius: 3px;
+}
+
+.partemitad_2::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb-color);
+  border-radius: 3px;
+}
+
 .contenedor3parte1 {
   position: relative;
   width: 400px;
@@ -766,7 +790,14 @@ h1.not-found {
 #pide2 {
   margin-top: 25px;
 }
-
+#pide1{
+  margin-left: 20px;
+  
+}
+#pide3{
+  margin-left: 20px;
+  
+}
 .column1 {
   display: grid;
   grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
@@ -778,7 +809,8 @@ h1.not-found {
   grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
 
 }
-.partemitad_3{
+
+.partemitad_3 {
   display: grid;
   grid-template-rows: 3fr 1fr;
 }
@@ -803,13 +835,15 @@ h1.not-found {
   border: 1px solid #dfd9d9;
   background-color: rgba(224, 217, 217, 0.363);
 }
-.img_ganador h1{
+
+.img_ganador h1 {
   font-size: 1rem;
   margin-left: 0%;
   margin-top: -2px;
   color: rgb(49, 49, 49);
 }
-#fotoo{
+
+#fotoo {
   margin-top: 8px;
   width: 30%;
   height: auto;
